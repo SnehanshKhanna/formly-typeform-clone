@@ -1,0 +1,82 @@
+{
+  "short_text": [
+    {"input": "valid string", "valid": true},
+    {"input": "   ", "valid": false, "reason": "whitespace"},
+    {"input": "", "valid": false, "reason": "empty"},
+    {"input": 0, "valid": false, "reason": "type mismatch"},
+    {"input": false, "valid": false, "reason": "type mismatch"},
+    {"input": "🌟 emojis count correctly", "valid": true},
+    {"input": "a", "valid": true},
+    {"input": null, "valid": false, "reason": "null"}
+  ],
+  "long_text": [
+    {"input": "valid\nmultiline", "valid": true},
+    {"input": "   ", "valid": false, "reason": "whitespace"},
+    {"input": "", "valid": false, "reason": "empty"},
+    {"input": 0, "valid": false, "reason": "type mismatch"},
+    {"input": false, "valid": false, "reason": "type mismatch"},
+    {"input": "🌟 emojis count correctly", "valid": true},
+    {"input": null, "valid": false, "reason": "null"},
+    {"input": "a", "valid": true}
+  ],
+  "number": [
+    {"input": 42, "valid": true},
+    {"input": 0, "valid": true},
+    {"input": -1, "valid": true},
+    {"input": 3.14, "valid": true},
+    {"input": "42", "valid": false, "reason": "string"},
+    {"input": false, "valid": false, "reason": "bool-as-number"},
+    {"input": "NaN", "valid": false, "reason": "NaN"},
+    {"input": "Inf", "valid": false, "reason": "Inf"}
+  ],
+  "yes_no": [
+    {"input": true, "valid": true},
+    {"input": false, "valid": true},
+    {"input": "true", "valid": false, "reason": "string"},
+    {"input": 1, "valid": false, "reason": "number"},
+    {"input": 0, "valid": false, "reason": "number"},
+    {"input": null, "valid": false, "reason": "null"},
+    {"input": "", "valid": false, "reason": "empty"},
+    {"input": "yes", "valid": false, "reason": "string"}
+  ],
+  "rating": [
+    {"input": 3, "valid": true},
+    {"input": 1, "valid": true},
+    {"input": 5, "valid": true},
+    {"input": 3.5, "valid": false, "reason": "float"},
+    {"input": 0, "valid": false, "reason": "out of bounds"},
+    {"input": 6, "valid": false, "reason": "out of bounds"},
+    {"input": "3", "valid": false, "reason": "string"},
+    {"input": true, "valid": false, "reason": "bool"}
+  ],
+  "email": [
+    {"input": "test@example.com", "valid": true},
+    {"input": "TEST@EXAMPLE.COM", "valid": true},
+    {"input": "test+alias@example.co.uk", "valid": true},
+    {"input": "invalid-email", "valid": false, "reason": "format"},
+    {"input": "@example.com", "valid": false, "reason": "format"},
+    {"input": "test@", "valid": false, "reason": "format"},
+    {"input": "   test@example.com   ", "valid": false, "reason": "whitespace"},
+    {"input": 123, "valid": false, "reason": "type"}
+  ],
+  "multiple_choice": [
+    {"input": ["opt1"], "valid": true},
+    {"input": ["opt1", "opt2"], "valid": true},
+    {"input": [], "valid": false, "reason": "empty list"},
+    {"input": "opt1", "valid": false, "reason": "not list"},
+    {"input": ["foreign_opt"], "valid": false, "reason": "foreign option id"},
+    {"input": ["opt1", "opt1"], "valid": false, "reason": "duplicate option ids"},
+    {"input": [123], "valid": false, "reason": "invalid type in list"},
+    {"input": null, "valid": false, "reason": "null"}
+  ],
+  "dropdown": [
+    {"input": ["opt1"], "valid": true},
+    {"input": ["opt1", "opt2"], "valid": false, "reason": "multiple items"},
+    {"input": [], "valid": false, "reason": "empty"},
+    {"input": ["foreign_opt"], "valid": false, "reason": "foreign"},
+    {"input": "opt1", "valid": false, "reason": "not list"},
+    {"input": [123], "valid": false, "reason": "invalid type"},
+    {"input": ["opt1", "opt1"], "valid": false, "reason": "duplicate"},
+    {"input": null, "valid": false, "reason": "null"}
+  ]
+}

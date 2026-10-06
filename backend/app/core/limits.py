@@ -1,0 +1,1 @@
+MAX_PAYLOAD_SIZE = 1 * 1024 * 1024  # 1 MB
