@@ -1,13 +1,19 @@
 import { apiFetch } from "./client"
-import type { FormCreate, FormResponse, FormUpdate, FormStatsResponse } from "@/types/api"
+import type { FormCreate, FormResponse, FormUpdate, FormStatsResponse, FormListResponse, FormFullResponse } from "@/types/api"
 
 export const formsApi = {
-  list: () => apiFetch<FormResponse[]>("/forms"),
+  list: (q?: string, status?: string) => {
+    const params = new URLSearchParams()
+    if (q) params.set("q", q)
+    if (status && status !== "all") params.set("status", status)
+    const qs = params.toString()
+    return apiFetch<FormListResponse>(`/forms${qs ? `?${qs}` : ""}`)
+  },
   create: (data: FormCreate) => apiFetch<FormResponse>("/forms", {
     method: "POST",
     body: JSON.stringify(data),
   }),
-  get: (id: string) => apiFetch<FormResponse>(`/forms/${id}`),
+  get: (id: string) => apiFetch<FormFullResponse>(`/forms/${id}`),
   update: (id: string, data: FormUpdate) => apiFetch<FormResponse>(`/forms/${id}`, {
     method: "PATCH",
     body: JSON.stringify(data),

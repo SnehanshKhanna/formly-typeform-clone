@@ -18,9 +18,9 @@ def run_seed(db):
     random.seed(42)
 
     # Create a creator if not exists
-    creator = db.query(Creator).filter(Creator.email == "demo@example.com").first()
+    creator = db.query(Creator).filter(Creator.email == "demo@formly.app").first()
     if not creator:
-        creator = Creator(email="demo@example.com", name="Demo User")
+        creator = Creator(email="demo@formly.app", name="Demo User")
         db.add(creator)
         db.commit()
         db.refresh(creator)

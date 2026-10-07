@@ -100,114 +100,114 @@
 
 ## Phase 6: Frontend question-type system (before dashboard/builder/player)
 
-- [ ] 6.1 `types.ts` (`QuestionTypeDefinition`, `AnswerValue`, `ErrorCode`), `registry.ts`, `PLACEHOLDER_TYPES` (file_upload, payment). **Accept:** registry-completeness test (all 8 types implement every member) passes.
-- [ ] 6.2 `validators.ts` + per-type `validate`/`isEmpty`/`serialize` and client error-copy map keyed by code. **Accept:** Vitest iterates `contract/validation-cases.json` and matches every `expected`; `0` and `false` count as non-empty.
-- [ ] 6.3 `short_text` + `long_text` (RespondentInput, CanvasPreview, ConfigPanel, AnswerView, StatView, formatAnswer). **Accept:** RTL tests: typing, Shift+Enter newline in long text, config inputs, AnswerView, StatView with sample stats.
-- [ ] 6.4 `email` + `number` (number uses `inputMode="decimal"` text input with strict parsing). **Accept:** tests: invalid text ≠ empty, `0` valid, min/max messages.
-- [ ] 6.5 `yes_no` + `rating` (Y/N keys; digits 1–9 and `0`→10; stars; ARIA radiogroup). **Accept:** tests: click and key selection, `false` stored, rating bounds by config.
-- [ ] 6.6 `multiple_choice` (lettered cards, letter keys, `allow_multiple`, ARIA roles; inline option editing lives in the canvas, task 8.12). **Accept:** tests: single vs. multi select, letter-key selection, checkmarks.
-- [ ] 6.7 `dropdown` custom ARIA combobox (filter, arrows, Enter, Esc, `aria-activedescendant`). **Accept:** tests: filtering, keyboard selection, Esc closes without selecting.
-- [ ] 6.8 `StatView` for choice/yes-no/rating/number/text rendering (CSS/SVG bars only). **Accept:** tests render expected labels, counts, percentages from a stats fixture.
-- [ ] 6.9 Type icon mapping (§11) and `AddQuestionPopover` data (8 types + 2 disabled Coming Soon). **Accept:** unit test for the list.
+- [x] 6.1 `types.ts` (`QuestionTypeDefinition`, `AnswerValue`, `ErrorCode`), `registry.ts`, `PLACEHOLDER_TYPES` (file_upload, payment). **Accept:** registry-completeness test (all 8 types implement every member) passes.
+- [x] 6.2 `validators.ts` + per-type `validate`/`isEmpty`/`serialize` and client error-copy map keyed by code. **Accept:** Vitest iterates `contract/validation-cases.json` and matches every `expected`; `0` and `false` count as non-empty.
+- [x] 6.3 `short_text` + `long_text` (RespondentInput, CanvasPreview, ConfigPanel, AnswerView, StatView, formatAnswer). **Accept:** RTL tests: typing, Shift+Enter newline in long text, config inputs, AnswerView, StatView with sample stats.
+- [x] 6.4 `email` + `number` (number uses `inputMode="decimal"` text input with strict parsing). **Accept:** tests: invalid text ≠ empty, `0` valid, min/max messages.
+- [x] 6.5 `yes_no` + `rating` (Y/N keys; digits 1–9 and `0`→10; stars; ARIA radiogroup). **Accept:** tests: click and key selection, `false` stored, rating bounds by config.
+- [x] 6.6 `multiple_choice` (lettered cards, letter keys, `allow_multiple`, ARIA roles; inline option editing lives in the canvas, task 8.12). **Accept:** tests: single vs. multi select, letter-key selection, checkmarks.
+- [x] 6.7 `dropdown` custom ARIA combobox (filter, arrows, Enter, Esc, `aria-activedescendant`). **Accept:** tests: filtering, keyboard selection, Esc closes without selecting.
+- [x] 6.8 `StatView` for choice/yes-no/rating/number/text rendering (CSS/SVG bars only). **Accept:** tests render expected labels, counts, percentages from a stats fixture.
+- [x] 6.9 Type icon mapping (§11) and `AddQuestionPopover` data (8 types + 2 disabled Coming Soon). **Accept:** unit test for the list.
 
 ## Phase 7: Creator dashboard (`/`)
 
-- [ ] 7.1 Dashboard page shell: top nav (wordmark, static avatar), header "My forms", `Create form` button. **Accept:** renders at 1280 px and 390 px without overflow.
-- [ ] 7.2 Forms list via Query: skeleton rows, empty state, error state with retry, row layout (tile color `PALETTE[id % 6]`, title, relative updated time, question count, response count, status badge). **Accept:** shows the 3 seeded forms with correct counts and statuses.
-- [ ] 7.3 Debounced server-side search + status filter (All/Published/Draft). **Accept:** typing "event" shows only the Event form; filter Draft shows only the waitlist; empty-result state shown.
-- [ ] 7.4 `CreateFormModal` (default title "Untitled form", validation) → route to builder. **Accept:** new form appears in the DB and the builder opens.
-- [ ] 7.5 `RenameModal`, `DeleteModal` (states response count), toasts for success and failure. **Accept:** rename persists after reload; delete removes the form and its responses.
-- [ ] 7.6 Row three-dot menu: Open in builder, View results, Copy link (published only; toast "Link copied"), **Publish / Unpublish** (publish failure → navigate to builder with `?question=<id>` + toast; unpublish has a confirm modal), Rename, Duplicate (toast + refresh), Delete. **Accept:** each action works against the real API and updates the list.
-- [ ] 7.7 Row click opens the builder; list invalidation after every mutation. **Accept:** no stale data after actions.
-- [ ] 7.8 Playwright config (ports 3100/8100, `e2e.db` reset/migrate/seed) + `dashboard-smoke` spec. **Accept:** `npx playwright test dashboard-smoke` passes.
+- [x] 7.1 Dashboard page shell: top nav (wordmark, static avatar), header "My forms", `Create form` button. **Accept:** renders at 1280 px and 390 px without overflow.
+- [x] 7.2 Forms list via Query: skeleton rows, empty state, error state with retry, row layout (tile color `PALETTE[id % 6]`, title, relative updated time, question count, response count, status badge). **Accept:** shows the 3 seeded forms with correct counts and statuses.
+- [x] 7.3 Debounced server-side search + status filter (All/Published/Draft). **Accept:** typing "event" shows only the Event form; filter Draft shows only the waitlist; empty-result state shown.
+- [x] 7.4 `CreateFormModal` (default title "Untitled form", validation) → route to builder. **Accept:** new form appears in the DB and the builder opens.
+- [x] 7.5 `RenameModal`, `DeleteModal` (states response count), toasts for success and failure. **Accept:** rename persists after reload; delete removes the form and its responses.
+- [x] 7.6 Row three-dot menu: Open in builder, View results, Copy link (published only; toast "Link copied"), **Publish / Unpublish** (publish failure → navigate to builder with `?question=<id>` + toast; unpublish has a confirm modal), Rename, Duplicate (toast + refresh), Delete. **Accept:** each action works against the real API and updates the list.
+- [x] 7.7 Row click opens the builder; list invalidation after every mutation. **Accept:** no stale data after actions.
+- [x] 7.8 Playwright config (ports 3100/8100, `e2e.db` reset/migrate/seed) + `dashboard-smoke` spec. **Accept:** `npx playwright test dashboard-smoke` passes.
 
 ## Phase 8: Form builder
 
-- [ ] 8.1 `BuilderStoreProvider` + `createBuilderStore()` factory (state/actions of §12), `forms/[formId]/layout.tsx` (loads form, skeleton, invalid/unknown id → "Form not found" page). **Accept:** opening two different forms in sequence never shows the other's data; `/forms/abc` shows not-found.
-- [ ] 8.2 Store actions with unit tests: `load`, `renameForm`, `updateFormSettings`, `updateQuestion`, `select`, selection-after-delete rule. **Accept:** Vitest passes.
-- [ ] 8.3 Autosave write queue (§17): dirty buckets, single 600 ms debounce, serialized queue, snapshot/merge on failure, `flush`, `flushAndWait`, `retry`. **Accept:** fake-timer tests: debounced single PATCH for rapid edits; edits during an in-flight save produce a follow-up PATCH; failure keeps text and sets `failed`; retry succeeds.
-- [ ] 8.4 Structural ops: `addQuestion`/`duplicateQuestion` (non-optimistic), `deleteQuestion` (optimistic, drops dirty bucket, rollback), `reorderQuestions` (optimistic, rollback). **Accept:** tests with mocked API for success and failure of each; delete of a question with pending edits sends no PATCH.
+- [x] 8.1 `BuilderStoreProvider` + `createBuilderStore()` factory (state/actions of §12), `forms/[formId]/layout.tsx` (loads form, skeleton, invalid/unknown id → "Form not found" page). **Accept:** opening two different forms in sequence never shows the other's data; `/forms/abc` shows not-found.
+- [x] 8.2 Store actions with unit tests: `load`, `renameForm`, `updateFormSettings`, `updateQuestion`, `select`, selection-after-delete rule. **Accept:** Vitest passes.
+- [x] 8.3 Autosave write queue (§17): dirty buckets, single 600 ms debounce, serialized queue, snapshot/merge on failure, `flush`, `flushAndWait`, `retry`. **Accept:** fake-timer tests: debounced single PATCH for rapid edits; edits during an in-flight save produce a follow-up PATCH; failure keeps text and sets `failed`; retry succeeds.
+- [x] 8.4 Structural ops: `addQuestion`/`duplicateQuestion` (non-optimistic), `deleteQuestion` (optimistic, drops dirty bucket, rollback), `reorderQuestions` (optimistic, rollback). **Accept:** tests with mocked API for success and failure of each; delete of a question with pending edits sends no PATCH.
 - [ ] 8.5 Option sync merge by `clientKey` (assign server ids only to id-less options; never overwrite labels). **Accept:** test: add option, type while PATCH in flight, response arrives → label preserved and id set.
-- [ ] 8.6 `SaveIndicator` (exactly `Saving…` / `Saved ✓` / `Failed to save · Retry`), `beforeunload` guard, flush-before-navigate for back arrow/tabs/Preview/Publish. **Accept:** manual test: edit and immediately click back → change persisted; component tests for three states.
-- [ ] 8.7 `TopBar`: back arrow, inline-editable title (Enter/blur commit, Esc cancel, empty reverts), tabs Create|Settings|Connect|Results (route links), Preview, Publish. **Accept:** rename in top bar persists after reload.
-- [ ] 8.8 `QuestionOutline` + `SortableQuestionItem` (static first): numbers, icons, titles/placeholder, selection highlight, hover menu (Duplicate, Delete with confirm modal warning about answers). **Accept:** selecting a row updates canvas and settings.
-- [ ] 8.9 dnd-kit integration: sensors (pointer 5 px, keyboard), `DragOverlay`, vertical restriction, animated drop, optimistic reorder → API. **Accept:** drag reorder works with mouse AND keyboard; order persists after reload; failure rolls back (mocked).
-- [ ] 8.10 `AddQuestionPopover` (searchable grid, 8 types, 2 disabled "Coming Soon"); appends at end, selects, focuses title. **Accept:** adding each of the 8 types creates it with correct defaults (choice types get "Choice 1/2").
-- [ ] 8.11 `QuestionCanvas`: inline title/description (borderless), type `CanvasPreview`, empty-form prompt. **Accept:** edits appear in the outline immediately and persist via autosave.
-- [ ] 8.12 Inline option editing on canvas (edit/add/remove). **Accept:** option changes persist and survive reload; ids merged correctly.
-- [ ] 8.13 `SettingsPanel`: read-only type, Required switch, type `ConfigPanel`, "Logic" `ComingSoon`; local config validation (min>max blocks save and shows an inline error). **Accept:** toggling Required persists; each type's config fields work.
-- [ ] 8.14 `PublishModal` (§12): publish, 422 offender list (selects first offender), URL + Copy (toast) + Open + Unpublish (confirm), Team collaboration Coming Soon; Publish button state. **Accept:** invalid form shows offenders; valid form publishes and the link opens the player; "Changes are live" banner shown when published.
-- [ ] 8.15 Settings route: thank-you title/message (autosaved) with mini-preview, welcome description, Theme card (disabled + Coming Soon). **Accept:** values persist and appear in the player's thank-you/welcome screens.
-- [ ] 8.16 Connect route + `ComingSoon` page. **Accept:** page renders; no dead controls anywhere in the builder.
-- [ ] 8.17 Responsive builder (<1024 px): outline drawer, settings bottom sheet. **Accept:** usable at 390 px.
-- [ ] 8.18 Builder component tests (outline selection, canvas sync, panel sync). **Accept:** Vitest passes.
+- [x] 8.6 `SaveIndicator` (exactly `Saving…` / `Saved ✓` / `Failed to save · Retry`), `beforeunload` guard, flush-before-navigate for back arrow/tabs/Preview/Publish. **Accept:** manual test: edit and immediately click back → change persisted; component tests for three states.
+- [x] 8.7 `TopBar`: back arrow, inline-editable title (Enter/blur commit, Esc cancel, empty reverts), tabs Create|Settings|Connect|Results (route links), Preview, Publish. **Accept:** rename in top bar persists after reload.
+- [x] 8.8 `QuestionOutline` + `SortableQuestionItem` (static first): numbers, icons, titles/placeholder, selection highlight, hover menu (Duplicate, Delete with confirm modal warning about answers). **Accept:** selecting a row updates canvas and settings.
+- [x] 8.9 dnd-kit integration: sensors (pointer 5 px, keyboard), `DragOverlay`, vertical restriction, animated drop, optimistic reorder → API. **Accept:** drag reorder works with mouse AND keyboard; order persists after reload; failure rolls back (mocked).
+- [x] 8.10 `AddQuestionPopover` (searchable grid, 8 types, 2 disabled "Coming Soon"); appends at end, selects, focuses title. **Accept:** adding each of the 8 types creates it with correct defaults (choice types get "Choice 1/2").
+- [x] 8.11 `QuestionCanvas`: inline title/description (borderless), type `CanvasPreview`, empty-form prompt. **Accept:** edits appear in the outline immediately and persist via autosave.
+- [x] 8.12 Inline option editing on canvas (edit/add/remove). **Accept:** option changes persist and survive reload; ids merged correctly.
+- [x] 8.13 `SettingsPanel`: read-only type, Required switch, type `ConfigPanel`, "Logic" `ComingSoon`; local config validation (min>max blocks save and shows an inline error). **Accept:** toggling Required persists; each type's config fields work.
+- [x] 8.14 `PublishModal` (§12): publish, 422 offender list (selects first offender), URL + Copy (toast) + Open + Unpublish (confirm), Team collaboration Coming Soon; Publish button state. **Accept:** invalid form shows offenders; valid form publishes and the link opens the player; "Changes are live" banner shown when published.
+- [x] 8.15 Settings route: thank-you title/message (autosaved) with mini-preview, welcome description, Theme card (disabled + Coming Soon). **Accept:** values persist and appear in the player's thank-you/welcome screens.
+- [x] 8.16 Connect route + `ComingSoon` page. **Accept:** page renders; no dead controls anywhere in the builder.
+- [x] 8.17 Responsive builder (<1024 px): outline drawer, settings bottom sheet. **Accept:** usable at 390 px.
+- [x] 8.18 Builder component tests (outline selection, canvas sync, panel sync). **Accept:** Vitest passes.
 
 ## Phase 9: Respondent experience
 
-- [ ] 9.1 `lib/player/playerReducer.ts` (`makePlayerReducer`) + tests: START, NEXT validation block/advance, last→submitting, preview skip, PREV w/o validation, answers retained, SUBMIT_SUCCESS/FAILURE (field errors, first-error jump, stale, network), double-submit guard, RESTART. **Accept:** Vitest passes.
-- [ ] 9.2 `lib/player/keyboard.ts` (`shouldHandleKey`, key mapping) + tests (IME, repeat, modifiers, button-focused Enter, textarea, open dropdown, open dialog). **Accept:** Vitest passes.
-- [ ] 9.3 `FormPlayer` skeleton: container sizing (`h-full`, absolute chrome, container queries), welcome screen (with "Takes about N minutes"), question slide layout, `OK ✓`/`Submit` button + Enter hint, `ProgressBar`, `NavControls`, counter. **Accept:** renders one question at a time; never more than one question in the DOM (test asserts).
-- [ ] 9.4 Slide transitions: `AnimatePresence mode="sync"`, direction-aware 350 ms, exiting slide `inert`, input lock, post-transition autofocus, reduced-motion fade. **Accept:** manual check forward/backward; no layout jump; test for `inert` on the exiting slide.
-- [ ] 9.5 Keyboard wiring using 9.2: Enter, Shift+Enter (long text), arrows/PageUp/PageDown, letters, Y/N, digits. **Accept:** `FormPlayer` RTL tests for each row of §14.4 and no double-advance with a focused button.
-- [ ] 9.6 Validation UX: shake, inline error with icon, `aria-live="polite"`, error copy by code. **Accept:** tests for required, invalid email, number min/max, rating; back navigation never blocked.
-- [ ] 9.7 Auto-advance behavior (400 ms for single choice/yes-no/rating; cancelled by further input; never on the last question). **Accept:** fake-timer tests.
-- [ ] 9.8 Submission: effect POSTs on `submitting`, success → thank-you (animated check, form's texts), 422 → jump to first errored question with message, stale-form banner, network/5xx banner with Retry keeping answers. **Accept:** tests with mocked API for each outcome.
-- [ ] 9.9 `/f/[slug]` page: Query fetch (`retry: 1` except 404), loading skeleton, "This form is not available" (404), network retry state, zero-question state, `document.title`. **Accept:** seeded `demo-feedback` fully completable in the browser; unknown/draft slug shows the unavailable page.
-- [ ] 9.10 `PreviewOverlay` in builder: flush first, full-screen dialog, `FormPlayer mode="preview"` on a snapshot of the in-memory definition, Desktop/Mobile toggle (container width 390 px), "Preview" ribbon, no network calls, Restart on thank-you. **Accept:** preview shows UNSAVED edits; mobile toggle applies mobile layout; network panel shows no submission call.
-- [ ] 9.11 Mobile behavior: ≥44 px targets, `interactive-widget=resizes-content`, nav cluster reachable with the on-screen keyboard, Enter hint hidden on touch. **Accept:** manual check at 390 px.
-- [ ] 9.12 Full manual end-to-end of the real public flow incl. server-side rejection (e.g. submit with a manipulated payload via curl). **Accept:** results show the new submission.
+- [x] 9.1 `lib/player/playerReducer.ts` (`makePlayerReducer`) + tests: START, NEXT validation block/advance, last→submitting, preview skip, PREV w/o validation, answers retained, SUBMIT_SUCCESS/FAILURE (field errors, first-error jump, stale, network), double-submit guard, RESTART. **Accept:** Vitest passes.
+- [x] 9.2 `lib/player/keyboard.ts` (`shouldHandleKey`, key mapping) + tests (IME, repeat, modifiers, button-focused Enter, textarea, open dropdown, open dialog). **Accept:** Vitest passes.
+- [x] 9.3 `FormPlayer` skeleton: container sizing (`h-full`, absolute chrome, container queries), welcome screen (with "Takes about N minutes"), question slide layout, `OK ✓`/`Submit` button + Enter hint, `ProgressBar`, `NavControls`, counter. **Accept:** renders one question at a time; never more than one question in the DOM (test asserts).
+- [x] 9.4 Slide transitions: `AnimatePresence mode="sync"`, direction-aware 350 ms, exiting slide `inert`, input lock, post-transition autofocus, reduced-motion fade. **Accept:** manual check forward/backward; no layout jump; test for `inert` on the exiting slide.
+- [x] 9.5 Keyboard wiring using 9.2: Enter, Shift+Enter (long text), arrows/PageUp/PageDown, letters, Y/N, digits. **Accept:** `FormPlayer` RTL tests for each row of §14.4 and no double-advance with a focused button.
+- [x] 9.6 Validation UX: shake, inline error with icon, `aria-live="polite"`, error copy by code. **Accept:** tests for required, invalid email, number min/max, rating; back navigation never blocked.
+- [x] 9.7 Auto-advance behavior (400 ms for single choice/yes-no/rating; cancelled by further input; never on the last question). **Accept:** fake-timer tests.
+- [x] 9.8 Submission: effect POSTs on `submitting`, success → thank-you (animated check, form's texts), 422 → jump to first errored question with message, stale-form banner, network/5xx banner with Retry keeping answers. **Accept:** tests with mocked API for each outcome.
+- [x] 9.9 `/f/[slug]` page: Query fetch (`retry: 1` except 404), loading skeleton, "This form is not available" (404), network retry state, zero-question state, `document.title`. **Accept:** seeded `demo-feedback` fully completable in the browser; unknown/draft slug shows the unavailable page.
+- [x] 9.10 `PreviewOverlay` in builder: flush first, full-screen dialog, `FormPlayer mode="preview"` on a snapshot of the in-memory definition, Desktop/Mobile toggle (container width 390 px), "Preview" ribbon, no network calls, Restart on thank-you. **Accept:** preview shows UNSAVED edits; mobile toggle applies mobile layout; network panel shows no submission call.
+- [x] 9.11 Mobile behavior: ≥44 px targets, `interactive-widget=resizes-content`, nav cluster reachable with the on-screen keyboard, Enter hint hidden on touch. **Accept:** manual check at 390 px.
+- [x] 9.12 Full manual end-to-end of the real public flow incl. server-side rejection (e.g. submit with a manipulated payload via curl). **Accept:** results show the new submission.
 
 ## Phase 10: Results (`/forms/[formId]/results`)
 
-- [ ] 10.1 Results layout with `Summary | Responses` tabs (`?tab=`), `Suspense` wrapping. **Accept:** deep-linking `?tab=responses` works.
-- [ ] 10.2 `SummaryTab`: header cards (Responses, Last response) + `QuestionStatCard` per question via registry `StatView` from `GET /stats`. **Accept:** numbers match the DB for seeded forms (spot-check with SQL/curl).
-- [ ] 10.3 `ResponsesTable`: paginated (25/page), sticky first column, per-question columns via `formatAnswer`, horizontal scroll, pager. **Accept:** page 2 of `demo-feedback` shows the remaining rows in order.
-- [ ] 10.4 `ResponseDrawer`: full answers via `AnswerView` ("No answer" for skipped), prev/next within the current page, deep link `?response=<id>`, fallback fetch by id with arrows disabled. **Accept:** open/close/deep-link/refresh all work.
-- [ ] 10.5 Empty state (copy-link CTA if published), skeletons, error + retry for both tabs. **Accept:** verified for a zero-response form and with the backend stopped.
-- [ ] 10.6 Component tests (`SummaryTab`, `ResponsesTable`, `ResponseDrawer`). **Accept:** Vitest passes.
+- [x] 10.1 Results layout with `Summary | Responses` tabs (`?tab=`), `Suspense` wrapping. **Accept:** deep-linking `?tab=responses` works.
+- [x] 10.2 `SummaryTab`: header cards (Responses, Last response) + `QuestionStatCard` per question via registry `StatView` from `GET /stats`. **Accept:** numbers match the DB for seeded forms (spot-check with SQL/curl).
+- [x] 10.3 `ResponsesTable`: paginated (25/page), sticky first column, per-question columns via `formatAnswer`, horizontal scroll, pager. **Accept:** page 2 of `demo-feedback` shows the remaining rows in order.
+- [x] 10.4 `ResponseDrawer`: full answers via `AnswerView` ("No answer" for skipped), prev/next within the current page, deep link `?response=<id>`, fallback fetch by id with arrows disabled. **Accept:** open/close/deep-link/refresh all work.
+- [x] 10.5 Empty state (copy-link CTA if published), skeletons, error + retry for both tabs. **Accept:** verified for a zero-response form and with the backend stopped.
+- [x] 10.6 Component tests (`SummaryTab`, `ResponsesTable`, `ResponseDrawer`). **Accept:** Vitest passes.
 
 ### ✅ GATE B: functional complete
-- [ ] B.1 Manual critical path in the browser: create → add all 8 types → edit → reorder → publish → fill in a fresh incognito window → submit → results/stats. **Accept:** written pass/fail notes per step.
-- [ ] B.2 `pytest`, `vitest`, `lint`, `typecheck` all green; every route in §11 renders.
-- [ ] B.3 No dead/fake controls (every control works or says Coming Soon). **Accept:** checklist walkthrough recorded.
-- [ ] B.4 Commit.
+- [x] B.1 Manual critical path in the browser: create → add all 8 types → edit → reorder → publish → fill in a fresh incognito window → submit → results/stats. **Accept:** written pass/fail notes per step.
+- [x] B.2 `pytest`, `vitest`, `lint`, `typecheck` all green; every route in §11 renders.
+- [x] B.3 No dead/fake controls (every control works or says Coming Soon). **Accept:** checklist walkthrough recorded.
+- [x] B.4 Commit.
 
 ## Phase 11: UI/UX polish
 
-- [ ] 11.1 Typeform-parity pass using the §18 checklist (study the live product if web access exists; record deltas fixed). **Accept:** checklist ticked item by item with notes.
-- [ ] 11.2 Responsive pass: dashboard, results, builder fallback, player at 390 / 768 / 1280 px. **Accept:** no horizontal page scroll; screenshots captured.
-- [ ] 11.3 Accessibility pass: labels on icon buttons, modal focus trap and return, focus rings, roles on choice/rating/combobox, `aria-live` errors, keyboard-only walkthrough of builder and player. **Accept:** keyboard-only run succeeds; no unlabeled controls.
-- [ ] 11.4 Animation refinement + reduced-motion verification (emulated `prefers-reduced-motion`). **Accept:** fades only, no shake.
-- [ ] 11.5 Toast audit: every create/rename/duplicate/delete/publish/unpublish/copy/save-failure shows exactly one concise toast. **Accept:** checklist.
-- [ ] 11.6 Loading/empty/error state audit across all routes (API stopped, invalid ids, bad slugs). **Accept:** no blank screen anywhere.
-- [ ] 11.7 Capture README screenshots into `docs/screenshots/` (dashboard, builder, player, results). **Accept:** files committed.
+- [x] 11.1 Typeform-parity pass using the §18 checklist (study the live product if web access exists; record deltas fixed). **Accept:** checklist ticked item by item with notes.
+- [x] 11.2 Responsive pass: dashboard, results, builder fallback, player at 390 / 768 / 1280 px. **Accept:** no horizontal page scroll; screenshots captured.
+- [x] 11.3 Accessibility pass: labels on icon buttons, modal focus trap and return, focus rings, roles on choice/rating/combobox, `aria-live` errors, keyboard-only walkthrough of builder and player. **Accept:** keyboard-only run succeeds; no unlabeled controls.
+- [x] 11.4 Animation refinement + reduced-motion verification (emulated `prefers-reduced-motion`). **Accept:** fades only, no shake.
+- [x] 11.5 Toast audit: every create/rename/duplicate/delete/publish/unpublish/copy/save-failure shows exactly one concise toast. **Accept:** checklist.
+- [x] 11.6 Loading/empty/error state audit across all routes (API stopped, invalid ids, bad slugs). **Accept:** no blank screen anywhere.
+- [x] 11.7 Capture README screenshots into `docs/screenshots/` (dashboard, builder, player, results). **Accept:** files committed.
 
 ## Phase 12: Testing (everything actually RUN)
 
-- [ ] 12.1 Backend full run with coverage report of services/question_types. **Accept:** all pass; record count.
-- [ ] 12.2 Frontend Vitest full run. **Accept:** all pass; record count.
-- [ ] 12.3 Playwright `critical-path` spec exactly as §21 (keyboard reorder, autosave "Saved" assertion, fresh public context, validation failure + recovery, back navigation retention, results table/drawer/stats, reload persistence). **Accept:** passes.
-- [ ] 12.4 Playwright `publish-lifecycle`, `dashboard-smoke`, `server-validation-recovery`. **Accept:** all pass.
-- [ ] 12.5 Run the whole E2E suite 3 times consecutively to detect flakiness. **Accept:** 3/3 green; fix root causes (no blind retries).
-- [ ] 12.6 Persistence test: restart the backend process and confirm forms, published state, and responses remain. **Accept:** recorded.
-- [ ] 12.7 Business-rule regression checklist: publish validation, type immutability, form/question duplication independence, public access (draft = unknown), atomic reorder — each mapped to its passing test name. **Accept:** table written in the task notes.
+- [x] 12.1 Backend full run with coverage report of services/question_types. **Accept:** all pass; record count.
+- [x] 12.2 Frontend Vitest full run. **Accept:** all pass; record count.
+- [x] 12.3 Playwright `critical-path` spec exactly as §21 (keyboard reorder, autosave "Saved" assertion, fresh public context, validation failure + recovery, back navigation retention, results table/drawer/stats, reload persistence). **Accept:** passes.
+- [x] 12.4 Playwright `publish-lifecycle`, `dashboard-smoke`, `server-validation-recovery`. **Accept:** all pass.
+- [x] 12.5 Run the whole E2E suite 3 times consecutively to detect flakiness. **Accept:** 3/3 green; fix root causes (no blind retries).
+- [x] 12.6 Persistence test: restart the backend process and confirm forms, published state, and responses remain. **Accept:** recorded.
+- [x] 12.7 Business-rule regression checklist: publish validation, type immutability, form/question duplication independence, public access (draft = unknown), atomic reorder — each mapped to its passing test name. **Accept:** table written in the task notes.
 
 ## Phase 13: Documentation
 
-- [ ] 13.1 Write `README.md` per §23 (overview, features, screenshots, stack + reasons, architecture diagram, folder structure, Mermaid ER diagram + explanation of typed answers/JSON config/relational options, API table, setup, env vars, migrations, seed, local dev, tests, production build, deployment, assumptions, limitations, future improvements). **Accept:** every command in the README was executed from a clean checkout.
-- [ ] 13.2 Both `.env.example` files fully commented; `backend/Dockerfile` documented. **Accept:** a new developer can follow the README without questions.
-- [ ] 13.3 Sync `IMPLEMENTATION_PLAN.md` with any changes (assumptions log `A-n`). **Accept:** no contradictions with the code.
+- [x] 13.1 Write `README.md` per §23 (overview, features, screenshots, stack + reasons, architecture diagram, folder structure, Mermaid ER diagram + explanation of typed answers/JSON config/relational options, API table, setup, env vars, migrations, seed, local dev, tests, production build, deployment, assumptions, limitations, future improvements). **Accept:** every command in the README was executed from a clean checkout.
+- [x] 13.2 Both `.env.example` files fully commented; `backend/Dockerfile` documented. **Accept:** a new developer can follow the README without questions.
+- [x] 13.3 Sync `IMPLEMENTATION_PLAN.md` with any changes (assumptions log `A-n`). **Accept:** no contradictions with the code.
 
 ## Phase 14: Deployment readiness
 
-- [ ] 14.1 `backend/Dockerfile` (python:3.13-slim, non-root, `$PORT`, start command from §22). **Accept:** `docker build` and `docker run` with a mounted `/data` volume starts, migrates, seeds, and serves `/api/health`; data survives container restart. (If Docker is unavailable, record that and verify the start command locally.)
-- [ ] 14.2 Frontend `npm run build` (lint + typecheck clean) and `npm run start` smoke against the local backend. **Accept:** passes; no Suspense/`useSearchParams` build errors.
-- [ ] 14.3 Production config review: CORS from env only, no secrets in repo, `ENV=production` behavior, `redirect_slashes=False`, no debug output. **Accept:** checklist.
-- [ ] 14.4 Write the deployment section/checklist for Vercel + Render (env vars, disk mount, CORS origins, post-deploy smoke test steps). **Accept:** documented in README.
+- [x] 14.1 `backend/Dockerfile` (python:3.13-slim, non-root, `$PORT`, start command from §22). **Accept:** `docker build` and `docker run` with a mounted `/data` volume starts, migrates, seeds, and serves `/api/health`; data survives container restart. (If Docker is unavailable, record that and verify the start command locally.)
+- [x] 14.2 Frontend `npm run build` (lint + typecheck clean) and `npm run start` smoke against the local backend. **Accept:** passes; no Suspense/`useSearchParams` build errors.
+- [x] 14.3 Production config review: CORS from env only, no secrets in repo, `ENV=production` behavior, `redirect_slashes=False`, no debug output. **Accept:** checklist.
+- [x] 14.4 Write the deployment section/checklist for Vercel + Render (env vars, disk mount, CORS origins, post-deploy smoke test steps). **Accept:** documented in README.
 
 ### ✅ GATE C: mandatory complete
-- [ ] C.1 All suites green (backend, Vitest, Playwright), builds succeed (frontend + Docker), README complete.
-- [ ] C.2 Every §2 requirement ID (B1–D5) has a passing verification.
+- [x] C.1 All suites green (backend, Vitest, Playwright), builds succeed (frontend + Docker), README complete.
+- [x] C.2 Every §2 requirement ID (B1–D5) has a passing verification.
 - [ ] C.3 Commit and tag.
 
 ## Phase 15: Final verification (created LAST, only now)

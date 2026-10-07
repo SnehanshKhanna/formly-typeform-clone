@@ -20,6 +20,7 @@ class FormUpdate(BaseSchema):
     description: Optional[str] = Field(None, max_length=10000)
     thank_you_title: Optional[str] = Field(None, max_length=255)
     thank_you_message: Optional[str] = Field(None, max_length=10000)
+    theme: Optional[Dict[str, Any]] = None
 
 
 class FormResponse(BaseModel):

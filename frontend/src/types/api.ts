@@ -13,9 +13,33 @@ export interface FormResponse {
   creator_id: string
   title: string
   status: FormStatus
+  slug: string
+  thank_you_title?: string | null
+  thank_you_message?: string | null
+  theme?: Record<string, any>
   published_at: string | null
   created_at: string
   updated_at: string
+}
+
+export interface FormFullResponse extends FormResponse {
+  questions: QuestionResponse[]
+}
+
+export interface FormSummaryResponse {
+  id: string
+  title: string
+  status: FormStatus
+  slug: string
+  question_count: number
+  response_count: number
+  updated_at: string
+  published_at: string | null
+}
+
+export interface FormListResponse {
+  items: FormSummaryResponse[]
+  total: number
 }
 
 export interface FormCreate {
@@ -25,12 +49,18 @@ export interface FormCreate {
 export interface FormUpdate {
   title?: string
   status?: FormStatus
+  thank_you_title?: string | null
+  thank_you_message?: string | null
+  theme?: Record<string, any>
 }
 
 export interface PublicFormResponse {
   id: string
   title: string
   slug: string
+  thank_you_title?: string | null
+  thank_you_message?: string | null
+  theme?: Record<string, any>
   questions: QuestionResponse[]
 }
 

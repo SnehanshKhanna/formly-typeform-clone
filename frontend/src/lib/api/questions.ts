@@ -17,4 +17,7 @@ export const questionsApi = {
     method: "POST",
     body: JSON.stringify(data),
   }),
+  duplicate: (formId: string, questionId: string) => apiFetch<QuestionResponse>(`/forms/${formId}/questions/${questionId}/duplicate`, {
+    method: "POST",
+  }),
 }

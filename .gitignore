@@ -10,3 +10,6 @@ __pycache__
 playwright-report
 test-results
 coverage
+.coverage
+typecheck_output.txt
+e2e_backend.py
