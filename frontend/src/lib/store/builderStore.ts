@@ -71,7 +71,7 @@ export const createBuilderStore = () => {
             if (q.options && serverQ.options) {
               const newOptions = q.options.map((opt, idx) => {
                 const serverOpt = (serverQ as any).options[idx]
-                if (!opt.id && serverOpt) {
+                if (serverOpt) {
                   return { ...opt, id: serverOpt.id }
                 }
                 return opt
@@ -147,8 +147,20 @@ export const createBuilderStore = () => {
     addQuestion: (question: ClientQuestion) => {
       const q = get()._queue
       if (q) {
-        q.addQuestion(question).then((res) => {
-          // If successful, we could update the id.
+        q.addQuestion(question).then((res: any) => {
+          set((state) => {
+            const newQuestions = state.questions.map(q => q.id === question.id ? { ...q, id: res.id, options: q.options?.map((opt, i) => ({ ...opt, id: res.options?.[i]?.id })) } : q)
+            const newBuckets = { ...state._dirtyBuckets, questions: { ...state._dirtyBuckets.questions } }
+            if (newBuckets.questions[question.id]) {
+              newBuckets.questions[res.id] = newBuckets.questions[question.id] as Partial<ClientQuestion>
+              delete newBuckets.questions[question.id]
+            }
+            return {
+              questions: newQuestions,
+              selectedId: state.selectedId === question.id ? res.id : state.selectedId,
+              _dirtyBuckets: newBuckets
+            }
+          })
         }).catch(() => {})
       }
       set((state) => ({
@@ -160,7 +172,11 @@ export const createBuilderStore = () => {
     duplicateQuestion: (id: string) => {
       const q = get()._queue
       if (q) {
-        q.duplicateQuestion(id).catch(() => {})
+        q.duplicateQuestion(id).then((res: any) => {
+          if (res && res.id) {
+            set((state) => ({ questions: [...state.questions, res], dirty: true }))
+          }
+        }).catch(() => {})
       }
     },
     reorderQuestions: (orderedIds: string[]) => {

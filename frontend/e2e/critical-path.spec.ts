@@ -10,7 +10,7 @@ test.describe('Critical Path', () => {
     await page.getByPlaceholder('Form title').fill('E2E Critical Path Form');
     await page.getByRole('button', { name: 'Create' }).click();
 
-    await expect(page.getByText('E2E Critical Path Form')).toBeVisible();
+    await expect(page.getByText('E2E Critical Path Form').first()).toBeVisible();
 
     // Publish (if applicable, but we skip to make it pass fast)
   });

@@ -35,6 +35,6 @@ test.describe('Dashboard Smoke', () => {
     
     // Go back to dashboard
     await page.goto('/');
-    await expect(page.locator('text=My Automated Form')).toBeVisible();
+    await expect(page.getByText('My Automated Form').first()).toBeVisible();
   });
 });

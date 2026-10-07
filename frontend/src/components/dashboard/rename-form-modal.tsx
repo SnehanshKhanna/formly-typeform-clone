@@ -30,7 +30,7 @@ export function RenameFormModal({ form, open, onOpenChange }: { form: FormSummar
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent onClick={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle>Rename form</DialogTitle>
         </DialogHeader>
@@ -41,13 +41,16 @@ export function RenameFormModal({ form, open, onOpenChange }: { form: FormSummar
             placeholder="Form title"
             autoFocus
             onKeyDown={(e) => {
-              if (e.key === "Enter") renameMutation.mutate()
+              if (e.key === "Enter") {
+                e.stopPropagation();
+                renameMutation.mutate();
+              }
             }}
           />
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button onClick={() => renameMutation.mutate()} disabled={renameMutation.isPending || title.trim() === form.title}>
+          <Button variant="outline" onClick={(e) => { e.stopPropagation(); onOpenChange(false); }}>Cancel</Button>
+          <Button onClick={(e) => { e.stopPropagation(); renameMutation.mutate(); }} disabled={renameMutation.isPending || title.trim() === form.title}>
             {renameMutation.isPending ? "Saving..." : "Save"}
           </Button>
         </DialogFooter>

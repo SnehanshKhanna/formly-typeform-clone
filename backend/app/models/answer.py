@@ -52,5 +52,8 @@ class Answer(BaseModel):
         if self.value_bool is not None:
             return self.value_bool
         if self.options:
-            return [str(opt.option_id) for opt in self.options]
+            labels = [
+                opt.option.label if opt.option else str(opt.option_id) for opt in self.options
+            ]
+            return labels[0] if len(labels) == 1 else labels
         return None

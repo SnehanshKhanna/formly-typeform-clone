@@ -28,7 +28,9 @@ def test_foreign_keys_block_invalid_insert():
         conn.execute(text("CREATE TABLE IF NOT EXISTS parent (id INTEGER PRIMARY KEY)"))
         conn.execute(
             text(
-                "CREATE TABLE IF NOT EXISTS child (id INTEGER PRIMARY KEY, parent_id INTEGER, FOREIGN KEY(parent_id) REFERENCES parent(id))"
+                "CREATE TABLE IF NOT EXISTS child "
+                "(id INTEGER PRIMARY KEY, parent_id INTEGER, "
+                "FOREIGN KEY(parent_id) REFERENCES parent(id))"
             )
         )
         conn.commit()

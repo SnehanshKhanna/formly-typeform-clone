@@ -24,7 +24,7 @@ export function DeleteFormModal({ form, open, onOpenChange }: { form: FormSummar
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent onClick={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle>Delete form</DialogTitle>
           <DialogDescription>
@@ -37,8 +37,8 @@ export function DeleteFormModal({ form, open, onOpenChange }: { form: FormSummar
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="mt-4">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button variant="destructive" onClick={() => deleteMutation.mutate()} disabled={deleteMutation.isPending}>
+          <Button variant="outline" onClick={(e) => { e.stopPropagation(); onOpenChange(false); }}>Cancel</Button>
+          <Button variant="destructive" onClick={(e) => { e.stopPropagation(); deleteMutation.mutate(); }} disabled={deleteMutation.isPending}>
             {deleteMutation.isPending ? "Deleting..." : "Delete form"}
           </Button>
         </DialogFooter>

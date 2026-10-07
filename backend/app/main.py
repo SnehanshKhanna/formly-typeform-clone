@@ -42,6 +42,11 @@ def create_app() -> FastAPI:
     app.include_router(health.router)
     from app.routers import forms, public, questions
 
+    @app.get("/")
+    @app.get("/api")
+    async def root():
+        return {"status": "ok", "message": "Formly API is running"}
+
     app.include_router(forms.router, prefix="/api")
     app.include_router(questions.router, prefix="/api")
     app.include_router(public.router, prefix="/api")

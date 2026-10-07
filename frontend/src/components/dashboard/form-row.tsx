@@ -68,71 +68,74 @@ export function FormRow({ form }: { form: FormSummaryResponse }) {
   }
 
   return (
-    <div className="group flex items-center justify-between p-4 border rounded-lg bg-card hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer" onClick={(e) => {
-      // Don't navigate if clicking on dropdown
-      const target = e.target as HTMLElement
-      if (!target.closest('[data-prevent-nav="true"]')) {
-        router.push(`/forms/${form.id}/create`)
-      }
-    }}>
-      <div className="flex items-center gap-4">
-        <div className={`w-12 h-12 rounded-md flex items-center justify-center text-white ${colorClass}`}>
-          <FileText className="w-6 h-6" />
-        </div>
-        <div className="flex flex-col">
-          <span className="font-semibold">{form.title}</span>
-          <span className="text-sm text-muted-foreground">
-            Updated {formatRelativeTime(form.updated_at)} ago
-          </span>
-        </div>
-      </div>
-      
-      <div className="flex items-center gap-4">
-        <div className="hidden sm:flex flex-col items-end mr-4">
-          <div className="flex items-center gap-3 text-sm text-muted-foreground">
-            <span>{form.question_count ?? 0} questions</span>
-            <span>·</span>
-            <span>{form.response_count ?? 0} responses</span>
+    <>
+      <div className="group flex items-center justify-between p-4 border rounded-lg bg-card hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer" onClick={(e) => {
+        // Don't navigate if clicking on dropdown
+        const target = e.target as HTMLElement
+        if (!target.closest('[data-prevent-nav="true"]') && !target.closest('[role="menu"]')) {
+          router.push(`/forms/${form.id}/create`)
+        }
+      }}>
+        <div className="flex items-center gap-4">
+          <div className={`w-12 h-12 rounded-md flex items-center justify-center text-white ${colorClass}`}>
+            <FileText className="w-6 h-6" />
           </div>
-          <div className="mt-1">
-            {form.status === "published" ? (
-              <Badge variant="outline" className="text-green-600 bg-green-50 border-green-200"><CheckCircle2 className="w-3 h-3 mr-1" /> Published</Badge>
-            ) : (
-              <Badge variant="outline" className="text-slate-600 bg-slate-50 border-slate-200"><Circle className="w-3 h-3 mr-1" /> Draft</Badge>
-            )}
+          <div className="flex flex-col">
+            <span className="font-semibold">{form.title}</span>
+            <span className="text-sm text-muted-foreground">
+              Updated {formatRelativeTime(form.updated_at)} ago
+            </span>
           </div>
         </div>
         
-        <div data-prevent-nav="true">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Open menu">
-                <MoreHorizontal className="w-5 h-5" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={() => router.push(`/forms/${form.id}/create`)}>Open in builder</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push(`/forms/${form.id}/results`)}>View results</DropdownMenuItem>
-              {form.status === "published" && <DropdownMenuItem onClick={handleCopyLink}>Copy link</DropdownMenuItem>}
-              <hr className="my-1 border-border" />
+        <div className="flex items-center gap-4">
+          <div className="hidden sm:flex flex-col items-end mr-4">
+            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+              <span>{form.question_count ?? 0} questions</span>
+              <span>·</span>
+              <span>{form.response_count ?? 0} responses</span>
+            </div>
+            <div className="mt-1">
               {form.status === "published" ? (
-                <DropdownMenuItem onClick={() => {
-                  if (confirm("Are you sure you want to unpublish this form?")) unpublishMutation.mutate()
-                }}>Unpublish</DropdownMenuItem>
+                <Badge variant="outline" className="text-green-600 bg-green-50 border-green-200"><CheckCircle2 className="w-3 h-3 mr-1" /> Published</Badge>
               ) : (
-                <DropdownMenuItem onClick={() => publishMutation.mutate()}>Publish</DropdownMenuItem>
+                <Badge variant="outline" className="text-slate-600 bg-slate-50 border-slate-200"><Circle className="w-3 h-3 mr-1" /> Draft</Badge>
               )}
-              <DropdownMenuItem onClick={() => setRenameOpen(true)}>Rename</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => duplicateMutation.mutate()}>Duplicate</DropdownMenuItem>
-              <hr className="my-1 border-border" />
-              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleteOpen(true)}>Delete</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </div>
+          </div>
+          
+          <div data-prevent-nav="true" onClick={(e) => e.stopPropagation()}>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" aria-label="Open menu">
+                  <MoreHorizontal className="w-5 h-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48" onClick={(e) => e.stopPropagation()}>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/forms/${form.id}/create`); }}>Open in builder</DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); router.push(`/forms/${form.id}/results`); }}>View results</DropdownMenuItem>
+                {form.status === "published" && <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleCopyLink(); }}>Copy link</DropdownMenuItem>}
+                <hr className="my-1 border-border" />
+                {form.status === "published" ? (
+                  <DropdownMenuItem onClick={(e) => {
+                    e.stopPropagation();
+                    if (confirm("Are you sure you want to unpublish this form?")) unpublishMutation.mutate();
+                  }}>Unpublish</DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem onClick={(e) => { e.stopPropagation(); publishMutation.mutate(); }}>Publish</DropdownMenuItem>
+                )}
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setRenameOpen(true); }}>Rename</DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); duplicateMutation.mutate(); }}>Duplicate</DropdownMenuItem>
+                <hr className="my-1 border-border" />
+                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={(e) => { e.stopPropagation(); setDeleteOpen(true); }}>Delete</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
 
       <RenameFormModal form={form} open={renameOpen} onOpenChange={setRenameOpen} />
       <DeleteFormModal form={form} open={deleteOpen} onOpenChange={setDeleteOpen} />
-    </div>
+    </>
   )
 }

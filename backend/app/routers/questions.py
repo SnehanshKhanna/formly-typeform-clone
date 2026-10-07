@@ -1,4 +1,7 @@
+from typing import List
+
 from fastapi import APIRouter, Depends
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.security import get_current_creator
@@ -18,11 +21,6 @@ def create_question(
     creator: Creator = Depends(get_current_creator),
 ):
     return question_service.create_question(db, creator.id, id, data)
-
-
-from typing import List
-
-from pydantic import BaseModel
 
 
 class ReorderRequest(BaseModel):

@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 from sqlalchemy import func
@@ -140,9 +141,6 @@ def duplicate_form(db: Session, creator_id: str, form_id: str) -> Form:
     db.commit()
     db.refresh(new_form)
     return new_form
-
-
-import datetime
 
 
 def publish_form(db: Session, creator_id: str, form_id: str) -> Form:

@@ -1,5 +1,6 @@
 import { useBuilderStore } from "@/lib/store/BuilderStoreProvider"
-import { getQuestionType } from "@/lib/question-types/registry"
+import { getQuestionType } from "@/lib/question-types"
+import { AddQuestionPopover } from "./add-question-popover"
 
 export function Canvas() {
   const selectedId = useBuilderStore((state) => state.selectedId)
@@ -8,10 +9,19 @@ export function Canvas() {
   
   const question = questions.find((q) => q.id === selectedId)
 
-  if (!question) {
+  if (!question && questions.length === 0) {
     return (
       <div className="h-full flex items-center justify-center text-muted-foreground flex-col gap-4">
         <div className="text-xl">Add your first question</div>
+        <AddQuestionPopover />
+      </div>
+    )
+  }
+
+  if (!question) {
+    return (
+      <div className="h-full flex items-center justify-center text-muted-foreground flex-col gap-4">
+        <div className="text-xl">Select a question to edit</div>
       </div>
     )
   }

@@ -20,7 +20,9 @@ export type AutosaveOptions = {
 export function createAutosaveQueue(options: AutosaveOptions) {
   let timer: ReturnType<typeof setTimeout> | null = null
   let queue = Promise.resolve()
-  let isFlushing = false
+  const idMap: Record<string, string> = {}
+
+  const resolveId = (id: string) => idMap[id] || id
 
   const enqueue = <T>(task: () => Promise<T>): Promise<T> => {
     const next = queue.then(task).catch((e) => {
@@ -54,7 +56,8 @@ export function createAutosaveQueue(options: AutosaveOptions) {
         const updatedQuestions: Record<string, QuestionResponse> = {}
         for (const [qid, updates] of Object.entries(buckets.questions)) {
           // Send only changed fields. If options changed, we need to send the full list.
-          updatedQuestions[qid] = await questionsApi.update(options.formId, qid, updates as any)
+          const realQid = resolveId(qid)
+          updatedQuestions[realQid] = await questionsApi.update(options.formId, realQid, updates as any)
         }
         if (options.onQuestionsUpdated && Object.keys(updatedQuestions).length > 0) {
           options.onQuestionsUpdated(updatedQuestions)
@@ -87,6 +90,9 @@ export function createAutosaveQueue(options: AutosaveOptions) {
       options.onStatusChange("saving")
       try {
         const result = await questionsApi.create(options.formId, questionData)
+        if (questionData.id && result.id) {
+          idMap[questionData.id] = result.id
+        }
         options.onStatusChange("saved")
         return result
       } catch (e) {
@@ -100,7 +106,8 @@ export function createAutosaveQueue(options: AutosaveOptions) {
     return enqueue(async () => {
       options.onStatusChange("saving")
       try {
-        const result = await questionsApi.duplicate(options.formId, qid)
+        const realQid = resolveId(qid)
+        const result = await questionsApi.duplicate(options.formId, realQid)
         options.onStatusChange("saved")
         return result
       } catch (e) {
@@ -120,7 +127,8 @@ export function createAutosaveQueue(options: AutosaveOptions) {
     return enqueue(async () => {
       options.onStatusChange("saving")
       try {
-        await questionsApi.delete(options.formId, qid)
+        const realQid = resolveId(qid)
+        await questionsApi.delete(options.formId, realQid)
         options.onStatusChange("saved")
       } catch (e) {
         options.onStatusChange("failed")
@@ -133,7 +141,8 @@ export function createAutosaveQueue(options: AutosaveOptions) {
     return enqueue(async () => {
       options.onStatusChange("saving")
       try {
-        await questionsApi.reorder(options.formId, { question_ids: orderedIds })
+        const mappedIds = orderedIds.map(resolveId)
+        await questionsApi.reorder(options.formId, { question_ids: mappedIds })
         options.onStatusChange("saved")
       } catch (e) {
         options.onStatusChange("failed")

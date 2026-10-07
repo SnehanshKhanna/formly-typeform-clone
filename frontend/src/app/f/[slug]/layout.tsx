@@ -15,7 +15,7 @@ function DataLoader({ slug, children }: { slug: string; children: React.ReactNod
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["public_form", slug],
-    queryFn: () => apiFetch<PublicFormResponse>(`/f/${slug}`),
+    queryFn: () => apiFetch<PublicFormResponse>(`/public/forms/${slug}`),
     retry: 1,
   })
 
@@ -38,7 +38,7 @@ function DataLoader({ slug, children }: { slug: string; children: React.ReactNod
       <div className="min-h-screen flex flex-col items-center justify-center bg-background p-6 text-center">
         <h1 className="text-3xl font-bold mb-4">Form not found</h1>
         <p className="text-muted-foreground max-w-md">
-          This form doesn't exist, is not published, or you don't have access to it.
+          This form doesn&apos;t exist, is not published, or you don&apos;t have access to it.
         </p>
       </div>
     )

@@ -1,4 +1,13 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"
+const getApiBaseUrl = (): string => {
+  const envUrl = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL
+  if (envUrl && envUrl.trim() !== "") {
+    const trimmed = envUrl.trim().replace(/\/+$/, "")
+    return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`
+  }
+  return "http://localhost:8000/api"
+}
+
+export const API_BASE_URL = getApiBaseUrl()
 
 export class ApiError extends Error {
   constructor(
@@ -23,6 +32,7 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
   // headers.set("Authorization", `Bearer ...`)
 
   const response = await fetch(url, {
+    cache: "no-store",
     ...options,
     headers,
   })

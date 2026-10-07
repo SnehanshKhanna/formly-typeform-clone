@@ -19,7 +19,7 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: '..\\backend\\.venv\\Scripts\\python e2e_backend.py',
+      command: 'cd ../backend && python e2e_backend.py',
       port: 8100,
       reuseExistingServer: !process.env.CI,
       stdout: 'pipe',

@@ -34,7 +34,7 @@ export const ratingDefinition: QuestionTypeDefinition = {
               key={rating}
               type="button"
               role="radio"
-              aria-checked={selected}
+              aria-checked={!!selected}
               aria-label={`Rate ${rating} stars`}
               onClick={() => onChange(rating)}
               className="p-1 text-primary hover:scale-110 transition-transform"

@@ -32,9 +32,9 @@ class ShortTextHandler(QuestionTypeHandler):
 
     @classmethod
     def calculate_stats(cls, question: Question, answers: List[Answer]) -> Dict[str, Any]:
-        # 'recent' requires sorting. We don't have created_at on Answer but we have submission.submitted_at
-        # For simplicity, we just take the last 5 in the list assuming they are ordered, or sort by id
-        recent = [a.value_text for a in sorted(answers, key=lambda x: x.id or "", reverse=True)[:5]]
+        # For simplicity, take the last 5 in reverse order
+        sorted_ans = sorted(answers, key=lambda x: x.id or "", reverse=True)
+        recent = [a.value_text for a in sorted_ans[:5]]
         return {"total_responses": len(answers), "recent": recent}
 
 

@@ -52,15 +52,16 @@ export default function ResultsPage() {
     router.push(`${pathname}?tab=responses`)
   }
 
-  const selectedIndex = (submissions as any)?.items?.findIndex((s: any) => s.id === selectedResponseId) ?? -1
+  const submissionsList = Array.isArray(submissions) ? submissions : []
+  const selectedIndex = submissionsList.findIndex((s: any) => s.id === selectedResponseId)
   const hasPrev = selectedIndex > 0
-  const hasNext = (submissions as any)?.items && selectedIndex < (submissions as any).items.length - 1
+  const hasNext = submissionsList.length > 0 && selectedIndex < submissionsList.length - 1
 
   const handlePrev = () => {
-    if (hasPrev) handleRowClick((submissions as any).items[selectedIndex - 1].id)
+    if (hasPrev) handleRowClick(submissionsList[selectedIndex - 1].id)
   }
   const handleNext = () => {
-    if (hasNext) handleRowClick((submissions as any).items[selectedIndex + 1].id)
+    if (hasNext) handleRowClick(submissionsList[selectedIndex + 1].id)
   }
 
   return (
@@ -81,7 +82,7 @@ export default function ResultsPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-background border rounded-lg p-6 shadow-sm">
                 <div className="text-sm font-medium text-muted-foreground">Total Responses</div>
-                <div className="text-3xl font-bold mt-2">{(stats as any)?.total_responses || 0}</div>
+                <div className="text-3xl font-bold mt-2">{(stats as any)?.total_submissions || 0}</div>
               </div>
               <div className="bg-background border rounded-lg p-6 shadow-sm">
                 <div className="text-sm font-medium text-muted-foreground">Completion Rate</div>
@@ -99,19 +100,19 @@ export default function ResultsPage() {
 
             <div className="space-y-6">
               <h3 className="text-xl font-semibold">Question Summary</h3>
-              {(stats as any)?.question_stats?.map((qStat: any) => {
-                const question = questions?.find((q: any) => q.id === qStat.question_id)
+              {Object.entries((stats as any)?.question_stats || {}).map(([qId, qStat]: [string, any]) => {
+                const question = questions?.find((q: any) => q.id === qId)
                 if (!question) return null
                 return (
-                  <div key={qStat.question_id} className="bg-background border rounded-lg p-6 shadow-sm">
+                  <div key={qId} className="bg-background border rounded-lg p-6 shadow-sm">
                     <h4 className="font-semibold mb-4">{question.title}</h4>
                     <div className="text-sm text-muted-foreground">
-                      {qStat.answered_count} answers
+                      {qStat.total_responses ?? 0} answers
                     </div>
                   </div>
                 )
               })}
-              {(!(stats as any)?.question_stats || (stats as any).question_stats.length === 0) && (
+              {(!(stats as any)?.question_stats || Object.keys((stats as any).question_stats).length === 0) && (
                 <div className="bg-background border rounded-lg p-12 text-center text-muted-foreground shadow-sm">
                   No data available yet. Share your form to get responses!
                 </div>
@@ -121,7 +122,7 @@ export default function ResultsPage() {
           
           <TabsContent value="responses" className="mt-6">
             <div className="bg-background border rounded-lg shadow-sm overflow-hidden">
-              {(submissions as any)?.items?.length > 0 ? (
+              {submissionsList.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm text-left">
                     <thead className="bg-muted text-muted-foreground">
@@ -135,7 +136,7 @@ export default function ResultsPage() {
                       </tr>
                     </thead>
                     <tbody className="divide-y">
-                      {(submissions as any).items.map((sub: any) => (
+                      {submissionsList.map((sub: any) => (
                         <tr 
                           key={sub.id} 
                           className="hover:bg-muted/50 transition-colors cursor-pointer"
@@ -147,11 +148,14 @@ export default function ResultsPage() {
                           {questions?.map((q: any) => {
                             const answer = sub.answers.find((a: any) => a.question_id === q.id)
                             let display = "—"
-                            if (answer) {
-                              if (answer.value_text !== null) display = answer.value_text
-                              else if (answer.value_number !== null) display = answer.value_number.toString()
-                              else if (answer.value_boolean !== null) display = answer.value_boolean ? "Yes" : "No"
-                              else if (answer.options) display = answer.options.join(", ")
+                            if (answer && answer.value !== undefined && answer.value !== null) {
+                              if (typeof answer.value === 'boolean') {
+                                display = answer.value ? "Yes" : "No"
+                              } else if (Array.isArray(answer.value)) {
+                                display = answer.value.join(", ")
+                              } else {
+                                display = String(answer.value)
+                              }
                             }
                             return (
                               <td key={q.id} className="px-6 py-4 max-w-[200px] truncate">

@@ -3,12 +3,15 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
+from app.core.errors import AppError
 from app.core.security import get_current_creator
 from app.db.session import get_db
 from app.models.creator import Creator
+from app.models.submission import Submission
 from app.schemas.form import FormCreate, FormFullResponse, FormListResponse, FormUpdate
 from app.schemas.submission import SubmissionResponse
 from app.services import form_service
+from app.services.stats_service import get_form_stats
 
 router = APIRouter(prefix="/forms", tags=["forms"])
 
@@ -75,10 +78,6 @@ def unpublish_form(
     return form_service.unpublish_form(db, creator.id, id)
 
 
-from app.core.errors import AppError
-from app.models.submission import Submission
-
-
 @router.get("/{id}/submissions", response_model=List[SubmissionResponse])
 def get_submissions(
     id: str,
@@ -113,9 +112,6 @@ def get_submission(
     if not sub:
         raise AppError("NOT_FOUND", "Submission not found", 404)
     return sub
-
-
-from app.services.stats_service import get_form_stats
 
 
 @router.get("/{id}/stats")

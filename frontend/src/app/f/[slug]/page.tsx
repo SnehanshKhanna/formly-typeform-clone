@@ -6,8 +6,12 @@ import { ArrowUp, ArrowDown, ChevronRight } from "lucide-react"
 import { QuestionView } from "@/components/player/question-view"
 import { useEffect, useState, useRef } from "react"
 import { apiFetch } from "@/lib/api/client"
+import { getQuestionType } from "@/lib/question-types"
+import { useParams } from "next/navigation"
 
 export default function PlayerPage() {
+  const params = useParams()
+  const slug = params.slug as string
   const form = usePlayerStore(state => state.form)
   const currentIndex = usePlayerStore(state => state.currentIndex)
   const next = usePlayerStore(state => state.next)
@@ -15,6 +19,7 @@ export default function PlayerPage() {
   const submit = usePlayerStore(state => state.submit)
   const isSubmitting = usePlayerStore(state => state.isSubmitting)
   const isSubmitted = usePlayerStore(state => state.isSubmitted)
+  const submitError = usePlayerStore(state => state.error)
   
   const [direction, setDirection] = useState<"up" | "down">("down")
   const prevIndexRef = useRef(currentIndex)
@@ -41,20 +46,12 @@ export default function PlayerPage() {
       const answerList = Object.entries(answers).map(([qid, val]) => {
         const q = form.questions.find(q => q.id === qid)
         if (!q || val === null || val === undefined || val === "") return null
-
-        if (q.type === "multiple_choice" || q.type === "dropdown") {
-          return { question_id: qid, options: val as string[] }
-        }
-        if (q.type === "number" || q.type === "rating") {
-          return { question_id: qid, value_number: val as number }
-        }
-        if (q.type === "yes_no") {
-          return { question_id: qid, value_boolean: val as boolean }
-        }
-        return { question_id: qid, value_text: val as string }
+        const typeDef = getQuestionType(q.type)
+        const serialized = typeDef.serialize ? typeDef.serialize(val) : val
+        return { question_id: qid, value: serialized }
       }).filter(Boolean)
 
-      await apiFetch(`/f/${form.slug}/submissions`, {
+      await apiFetch(`/public/forms/${slug}/submissions`, {
         method: "POST",
         body: JSON.stringify({ answers: answerList })
       })
@@ -80,7 +77,7 @@ export default function PlayerPage() {
       <div className="flex flex-col items-center text-center justify-center h-full max-w-2xl w-full mx-auto px-6 animate-in fade-in slide-in-from-bottom-8 duration-500">
         <h1 className="text-3xl md:text-5xl font-bold mb-6">{form.thank_you_title || "Thank you!"}</h1>
         <p className="text-xl text-muted-foreground mb-8">{form.thank_you_message || "Your response has been recorded."}</p>
-        <Button onClick={() => window.location.reload()} variant="outline" size="lg">
+        <Button onClick={() => window.location.href = '/'} variant="outline" size="lg">
           {form.theme?.thankYouButton || "Create a Typeform"}
         </Button>
       </div>
@@ -129,7 +126,12 @@ export default function PlayerPage() {
               <ArrowDown className="w-4 h-4" />
             </Button>
           </div>
-          <div className="text-xs font-semibold text-muted-foreground">
+          {submitError && (
+            <div className="text-sm text-destructive font-medium ml-4">
+              {submitError}
+            </div>
+          )}
+          <div className="text-xs font-semibold text-muted-foreground ml-auto hidden md:block">
             Powered by Formly
           </div>
         </div>

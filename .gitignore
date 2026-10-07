@@ -1,15 +1,48 @@
-node_modules
-.next
-.venv
-__pycache__
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Database
 *.db
 *.db-wal
 *.db-shm
-.env
-.env.local
-playwright-report
-test-results
-coverage
+*.sqlite
+*.sqlite3
+
+# Python & Virtual Environments
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
 .coverage
+coverage/
+htmlcov/
+
+# Next.js & Build Artifacts
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# Testing & Browser Artifacts
+playwright-report/
+test-results/
 typecheck_output.txt
 e2e_backend.py
+
+# OS & IDE
+.DS_Store
+Thumbs.db

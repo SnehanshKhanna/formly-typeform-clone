@@ -1,5 +1,5 @@
 import { useBuilderStore } from "@/lib/store/BuilderStoreProvider"
-import { getAllQuestionTypes } from "@/lib/question-types/registry"
+import { getAllQuestionTypes } from "@/lib/question-types"
 import { Copy, Trash2, Plus, GripVertical } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"

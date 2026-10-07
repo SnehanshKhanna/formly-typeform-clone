@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: formly-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: ENV
+        value: production
+      - key: CORS_ORIGINS
+        value: "http://localhost:3000"
+      - key: DATABASE_URL
+        value: sqlite:////data/formly.db
+    # Persistent disk for preserving SQLite database (optional on Render free tier, recommended for production)
+    disk:
+      name: formly-data
+      mountPath: /data
+      sizeGB: 1

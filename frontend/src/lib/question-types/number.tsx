@@ -16,8 +16,8 @@ export const numberDefinition: QuestionTypeDefinition = {
       if (typeof value === "boolean") return { valid: false, error: "invalid_type" }
       const num = Number(value)
       if (isNaN(num)) return { valid: false, error: "invalid_type" }
-      const min = question.config?.min as number | undefined
-      const max = question.config?.max as number | undefined
+      const min = (question.config && question.config.min !== undefined && question.config.min !== null && question.config.min !== "") ? Number(question.config.min) : undefined
+      const max = (question.config && question.config.max !== undefined && question.config.max !== null && question.config.max !== "") ? Number(question.config.max) : undefined
       if (min !== undefined && num < min) return { valid: false, error: "too_small" }
       if (max !== undefined && num > max) return { valid: false, error: "too_large" }
     }

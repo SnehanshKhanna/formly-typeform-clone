@@ -24,7 +24,8 @@ class Question(BaseModel):
 
     __table_args__ = (
         CheckConstraint(
-            "type IN ('short_text', 'long_text', 'multiple_choice', 'dropdown', 'email', 'number', 'yes_no', 'rating')",
+            "type IN ('short_text', 'long_text', 'multiple_choice', "
+            "'dropdown', 'email', 'number', 'yes_no', 'rating')",
             name="check_question_type_valid",
         ),
         Index("ix_questions_form_position", "form_id", "position"),

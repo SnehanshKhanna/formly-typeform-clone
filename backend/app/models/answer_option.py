@@ -1,4 +1,5 @@
 from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy.orm import relationship
 
 from app.db.base import Base
 
@@ -10,3 +11,5 @@ class AnswerOption(Base):
     option_id = Column(
         String, ForeignKey("question_options.id", ondelete="CASCADE"), primary_key=True
     )
+
+    option = relationship("QuestionOption", lazy="joined")

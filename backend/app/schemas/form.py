@@ -12,7 +12,7 @@ class FormBase(BaseSchema):
 
 
 class FormCreate(FormBase):
-    pass
+    model_config = {"extra": "ignore"}
 
 
 class FormUpdate(BaseSchema):
@@ -21,6 +21,7 @@ class FormUpdate(BaseSchema):
     thank_you_title: Optional[str] = Field(None, max_length=255)
     thank_you_message: Optional[str] = Field(None, max_length=10000)
     theme: Optional[Dict[str, Any]] = None
+    model_config = {"extra": "ignore"}
 
 
 class FormResponse(BaseModel):

@@ -73,11 +73,14 @@ export function ResponseDrawer({
                 const answer = (submission as any).answers.find((a: any) => a.question_id === q.id)
                 
                 let display = "No answer"
-                if (answer) {
-                  if (answer.value_text !== null) display = answer.value_text
-                  else if (answer.value_number !== null) display = answer.value_number.toString()
-                  else if (answer.value_boolean !== null) display = answer.value_boolean ? "Yes" : "No"
-                  else if (answer.options) display = answer.options.join(", ")
+                if (answer && answer.value !== undefined && answer.value !== null) {
+                  if (typeof answer.value === 'boolean') {
+                    display = answer.value ? "Yes" : "No"
+                  } else if (Array.isArray(answer.value)) {
+                    display = answer.value.join(", ")
+                  } else {
+                    display = String(answer.value)
+                  }
                 }
 
                 return (

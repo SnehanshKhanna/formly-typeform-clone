@@ -10,12 +10,13 @@ class QuestionOptionBase(BaseSchema):
 
 
 class QuestionOptionCreate(QuestionOptionBase):
-    pass
+    model_config = {"extra": "ignore"}
 
 
 class QuestionOptionUpdate(BaseSchema):
     id: Optional[str] = None
     label: str = Field(..., max_length=255)
+    model_config = {"extra": "ignore"}
 
 
 class QuestionOptionResponse(QuestionOptionBase):
@@ -36,6 +37,7 @@ class QuestionBase(BaseSchema):
 class QuestionCreate(QuestionBase):
     options: Optional[List[QuestionOptionCreate]] = None
     after_question_id: Optional[str] = None
+    model_config = {"extra": "ignore"}
 
 
 class QuestionUpdate(BaseSchema):
@@ -45,6 +47,7 @@ class QuestionUpdate(BaseSchema):
     required: Optional[bool] = None
     config: Optional[Dict[str, Any]] = None
     options: Optional[List[QuestionOptionUpdate]] = None
+    model_config = {"extra": "ignore"}
 
 
 class QuestionResponse(BaseSchema):

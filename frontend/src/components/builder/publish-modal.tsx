@@ -9,6 +9,7 @@ export function PublishModal({ children }: { children: React.ReactNode }) {
   const form = useBuilderStore((state) => state.form)
   const setPublished = useBuilderStore((state) => state.setPublished)
   const select = useBuilderStore((state) => state.select)
+  const flushAndWait = useBuilderStore((state) => state.flushAndWait)
   
   const [open, setOpen] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
@@ -26,14 +27,19 @@ export function PublishModal({ children }: { children: React.ReactNode }) {
     setOffenders([])
     setJustPublished(false)
     try {
+      await flushAndWait()
       const res = await formsApi.publish(form.id!)
       setPublished(res.published_at)
       setJustPublished(true)
     } catch (err: any) {
-      if (err.status === 422 && err.body?.detail?.errors) {
-        setOffenders(err.body.detail.errors)
-        if (err.body.detail.errors.length > 0) {
-          select(err.body.detail.errors[0].id)
+      if (err.data?.error?.fields) {
+        const errors = err.data.error.fields.map((f: any) => ({
+          id: f.question_id,
+          error: f.message
+        }))
+        setOffenders(errors)
+        if (errors.length > 0 && errors[0].id !== "form") {
+          select(errors[0].id)
         }
       } else {
         alert("An error occurred while publishing.")

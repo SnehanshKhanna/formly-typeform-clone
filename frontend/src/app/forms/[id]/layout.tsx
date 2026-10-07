@@ -37,7 +37,7 @@ function BuilderDataLoader({ id, children }: { id: string; children: React.React
     return (
       <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center">
         <h2 className="text-2xl font-semibold">Form not found</h2>
-        <p className="text-muted-foreground">This form doesn't exist or you don't have access to it.</p>
+        <p className="text-muted-foreground">This form doesn&apos;t exist or you don&apos;t have access to it.</p>
         <button
           onClick={() => router.push("/")}
           className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90"

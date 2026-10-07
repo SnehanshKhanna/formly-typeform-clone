@@ -1,7 +1,7 @@
 import { createStore, useStore } from "zustand"
 import React from "react"
 import type { PublicFormResponse, QuestionResponse } from "@/types/api"
-import type { AnswerValue } from "@/lib/question-types/types"
+import type { AnswerValue } from "@/lib/question-types"
 
 interface PlayerState {
   form: PublicFormResponse | null

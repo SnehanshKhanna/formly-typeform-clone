@@ -1,6 +1,6 @@
 import * as React from "react"
 import { usePlayerStore } from "@/lib/store/playerStore"
-import { getQuestionType } from "@/lib/question-types/registry"
+import { getQuestionType } from "@/lib/question-types"
 import { ClientQuestion } from "@/lib/store/builderStore"
 import { Button } from "@/components/ui/button"
 import { Check, ChevronRight } from "lucide-react"

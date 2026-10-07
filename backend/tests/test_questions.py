@@ -37,9 +37,9 @@ def test_update_question(client, default_creator, db_session):
     assert res.status_code == 422
     assert res.json()["error"]["code"] == "QUESTION_TYPE_IMMUTABLE"
 
-    # position rejected by forbid
+    # position is ignored (extra field)
     res = client.patch(f"/api/forms/{form.id}/questions/{q1.id}", json={"position": 10})
-    assert res.status_code == 422  # Pydantic validation error
+    assert res.status_code == 200
 
     # option sync
     res = client.patch(

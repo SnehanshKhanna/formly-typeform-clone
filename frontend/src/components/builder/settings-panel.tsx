@@ -1,5 +1,5 @@
 import { useBuilderStore } from "@/lib/store/BuilderStoreProvider"
-import { getQuestionType } from "@/lib/question-types/registry"
+import { getQuestionType } from "@/lib/question-types"
 import { Switch } from "@/components/ui/switch"
 
 export function SettingsPanel() {

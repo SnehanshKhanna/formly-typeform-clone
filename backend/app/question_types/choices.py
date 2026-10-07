@@ -58,10 +58,7 @@ class RatingHandler(QuestionTypeHandler):
     @classmethod
     def calculate_stats(cls, question: Question, answers: List[Answer]) -> Dict[str, Any]:
         config = question.config or {}
-        max_rating = config.get(
-            "steps", 5
-        )  # wait, rating handler uses 'steps'? the validation says 'max'. let's check validation. validation says 'max'.
-        max_rating = config.get("max", 5)
+        max_rating = config.get("max", config.get("steps", 5))
 
         dist = {str(i): 0 for i in range(1, max_rating + 1)}
         for a in answers:

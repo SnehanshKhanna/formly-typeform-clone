@@ -1,7 +1,7 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
-import { getAllQuestionTypes, PLACEHOLDER_TYPES } from "@/lib/question-types/registry"
+import { getAllQuestionTypes, PLACEHOLDER_TYPES } from "@/lib/question-types"
 import { useBuilderStore } from "@/lib/store/BuilderStoreProvider"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"

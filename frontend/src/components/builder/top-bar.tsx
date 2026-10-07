@@ -7,6 +7,7 @@ import { SaveIndicator } from "./save-indicator"
 import { PublishModal } from "./publish-modal"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 export function TopBar() {
   const router = useRouter()
@@ -55,6 +56,14 @@ export function TopBar() {
     } else if (e.key === "Escape") {
       setIsEditingTitle(false)
       setTitleValue(form?.title || "")
+    }
+  }
+
+  const handlePreview = () => {
+    if (form?.slug) {
+      window.open(`/f/${form.slug}`, "_blank")
+    } else {
+      toast("Error: Form has no public link.")
     }
   }
 
@@ -114,7 +123,7 @@ export function TopBar() {
 
       <div className="flex items-center justify-end gap-4 flex-1">
         <SaveIndicator />
-        <Button variant="outline" size="sm">Preview</Button>
+        <Button variant="outline" size="sm" onClick={handlePreview}>Preview</Button>
         <PublishModal>
           <Button size="sm" className="bg-primary text-primary-foreground">
             {form?.status === "published" ? (

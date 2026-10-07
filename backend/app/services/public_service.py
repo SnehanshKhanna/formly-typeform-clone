@@ -1,7 +1,14 @@
+import datetime
+
 from sqlalchemy.orm import Session
 
 from app.core.errors import AppError
+from app.models.answer import Answer
+from app.models.answer_option import AnswerOption
 from app.models.form import Form
+from app.models.submission import Submission
+from app.question_types.registry import get_handler
+from app.schemas.submission import SubmissionCreate
 
 
 def get_public_form(db: Session, slug: str) -> Form:
@@ -9,15 +16,6 @@ def get_public_form(db: Session, slug: str) -> Form:
     if not form:
         raise AppError("NOT_FOUND", "Not found", 404)
     return form
-
-
-import datetime
-
-from app.models.answer import Answer
-from app.models.answer_option import AnswerOption
-from app.models.submission import Submission
-from app.question_types.registry import get_handler
-from app.schemas.submission import SubmissionCreate
 
 
 def submit_form(db: Session, slug: str, data: SubmissionCreate) -> dict:
