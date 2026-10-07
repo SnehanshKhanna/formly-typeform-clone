@@ -20,7 +20,7 @@ export function PublishModal({ children }: { children: React.ReactNode }) {
   if (!form) return <>{children}</>
 
   const isPublished = form.status === "published"
-  const formUrl = typeof window !== "undefined" ? `${window.location.origin}/f/${form.id}` : ""
+  const formUrl = typeof window !== "undefined" && form.slug ? `${window.location.origin}/f/${form.slug}` : ""
 
   const handlePublish = async () => {
     setIsPublishing(true)
@@ -29,7 +29,7 @@ export function PublishModal({ children }: { children: React.ReactNode }) {
     try {
       await flushAndWait()
       const res = await formsApi.publish(form.id!)
-      setPublished(res.published_at)
+      setPublished(res.published_at, res.slug)
       setJustPublished(true)
     } catch (err: any) {
       if (err.data?.error?.fields) {
@@ -121,7 +121,7 @@ export function PublishModal({ children }: { children: React.ReactNode }) {
                     <Copy className="w-4 h-4" />
                   </Button>
                   <Button size="icon" variant="outline" aria-label="Open in new tab" asChild>
-                    <a href={`/f/${form.id}`} target="_blank" rel="noreferrer">
+                    <a href={`/f/${form.slug}`} target="_blank" rel="noreferrer">
                       <ExternalLink className="w-4 h-4" />
                     </a>
                   </Button>

@@ -26,7 +26,7 @@ export interface BuilderState {
   addQuestion: (question: ClientQuestion) => void
   duplicateQuestion: (id: string) => void
   reorderQuestions: (orderedIds: string[]) => void
-  setPublished: (publishedAt: string | null) => void
+  setPublished: (publishedAt: string | null, slug?: string) => void
   flush: () => void
   flushAndWait: () => Promise<void>
   retry: () => void
@@ -189,8 +189,17 @@ export const createBuilderStore = () => {
         return { questions: newQuestions, dirty: true }
       })
     },
-    setPublished: (publishedAt: string | null) =>
-      set((state) => ({ form: state.form ? { ...state.form, published_at: publishedAt, status: publishedAt ? "published" : "draft" } : null })),
+    setPublished: (publishedAt: string | null, slug?: string) =>
+      set((state) => ({
+        form: state.form
+          ? {
+              ...state.form,
+              published_at: publishedAt,
+              status: publishedAt ? "published" : "draft",
+              ...(slug ? { slug } : {}),
+            }
+          : null,
+      })),
     flush: () => get()._queue?.flush(),
     flushAndWait: async () => {
       const q = get()._queue

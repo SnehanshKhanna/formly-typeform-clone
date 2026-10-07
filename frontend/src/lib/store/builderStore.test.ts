@@ -123,4 +123,15 @@ describe("Builder Store", () => {
     expect(state.questions.length).toBe(1)
     expect(state.selectedId).toBe("q-1") // Select previous
   })
+
+  it("sets published state and updates slug", () => {
+    const store = createBuilderStore()
+    store.getState().load(mockForm)
+    
+    store.getState().setPublished("2026-10-07T12:00:00Z", "updated-survey-slug")
+    const state = store.getState()
+    expect(state.form?.status).toBe("published")
+    expect(state.form?.published_at).toBe("2026-10-07T12:00:00Z")
+    expect(state.form?.slug).toBe("updated-survey-slug")
+  })
 })

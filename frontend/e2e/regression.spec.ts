@@ -88,4 +88,32 @@ test.describe('Regression Tests', () => {
     await page.getByRole('button', { name: 'Submit' }).click();
     await expect(page.getByText('Thank you')).toBeVisible();
   });
+
+  test('builder share modal uses form slug and never form id for public respondent link', async ({ page }) => {
+    // 1. Go to dashboard and open first published form
+    await page.goto('/');
+    const formTitle = 'Customer Satisfaction Survey';
+    await expect(page.getByText(formTitle)).toBeVisible();
+    await page.getByText(formTitle).click();
+
+    // 2. We should be on /forms/[id]/create
+    await expect(page).toHaveURL(/\/forms\/[0-9a-f-]+\/create/);
+
+    // 3. Click the Published button in the top bar to open PublishModal
+    await page.getByRole('button', { name: /published/i }).click();
+
+    // 4. Modal is visible
+    await expect(page.getByText('Share your form')).toBeVisible();
+
+    // 5. The public link input must contain /f/demo-form-1 and must not contain the UUID
+    const input = page.locator('input[readonly]');
+    await expect(input).toBeVisible();
+    const val = await input.inputValue();
+    expect(val).toContain('/f/demo-form-1');
+    expect(val).not.toMatch(/\/f\/[0-9a-f]{8}-[0-9a-f]{4}/);
+
+    // 6. The "Open in new tab" link href must also use the slug
+    const openLink = page.getByRole('link', { name: 'Open in new tab' });
+    await expect(openLink).toHaveAttribute('href', '/f/demo-form-1');
+  });
 });

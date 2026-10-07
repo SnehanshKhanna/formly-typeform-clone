@@ -60,7 +60,7 @@ export function FormRow({ form }: { form: FormSummaryResponse }) {
 
   const handleCopyLink = () => {
     if (form.status !== "published") return
-    const url = `${window.location.origin}/f/${form.id}`
+    const url = `${window.location.origin}/f/${form.slug}`
     // Since copyToClipboard might be missing, I'll use standard navigator.clipboard
     navigator.clipboard.writeText(url).then(() => {
       toast.success("Link copied")
