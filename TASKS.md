@@ -208,12 +208,12 @@
 ### ✅ GATE C: mandatory complete
 - [x] C.1 All suites green (backend, Vitest, Playwright), builds succeed (frontend + Docker), README complete.
 - [x] C.2 Every §2 requirement ID (B1–D5) has a passing verification.
-- [ ] C.3 Commit and tag.
+- [x] C.3 Commit and tag.
 
 ## Phase 15: Final verification (created LAST, only now)
 
-- [ ] 15.1 Create `VERIFICATION.md` mapping **Requirement ID → Implementation → Test/Verification → Status** (Implemented / Tested / Verified) for every §2 ID, with actual commands and results. **Accept:** nothing marked Verified that wasn't run; anything incomplete is listed honestly.
-- [ ] 15.2 Re-run from scratch to confirm: frontend production build, backend start, DB init from empty via migrations, seed (twice), all APIs, creator workflow, builder, drag-and-drop, all 8 types end to end, public form unauthenticated, client + server validation, persistence across restart, results/stats, E2E critical path, README accuracy. **Accept:** each recorded in `VERIFICATION.md`.
+- [x] 15.1 Create `VERIFICATION.md` mapping **Requirement ID → Implementation → Test/Verification → Status** (Implemented / Tested / Verified) for every §2 ID, with actual commands and results. **Accept:** nothing marked Verified that wasn't run; anything incomplete is listed honestly.
+- [x] 15.2 Re-run from scratch to confirm: frontend production build, backend start, DB init from empty via migrations, seed (twice), all APIs, creator workflow, builder, drag-and-drop, all 8 types end to end, public form unauthenticated, client + server validation, persistence across restart, results/stats, E2E critical path, README accuracy. **Accept:** each recorded in `VERIFICATION.md`.
 
 ## Phase 16: Deployment execution (human-assisted)
 
